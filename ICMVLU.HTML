@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVLU Conference Router</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .conf-title { line-height: 1.2; }
+        .highlight-letter { color: #ec4899; }
+        .pink-text { color: #ec4899; }
+        .college-blue { color: #1e1b4b; }
+        .trust-red { color: #dc2626; }
+        
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col items-center">
+
+    <!-- Official Institutional Header -->
+    <header class="w-full bg-white border-b border-slate-200 py-6 px-4 shadow-sm mb-8">
+        <div class="max-w-6xl mx-auto flex items-center justify-center">
+            <div class="text-center">
+                <p class="trust-red font-bold text-base md:text-xl tracking-wide mb-1 uppercase">Laxmi Charitable Trust's</p>
+                <h1 class="college-blue font-extrabold text-lg md:text-3xl leading-tight mb-2">
+                    Sheth L.U.J. College of Arts & Sir M.V. College of Science & Commerce
+                </h1>
+                <p class="text-slate-700 font-semibold text-xs md:text-base">
+                    Dr. S. Radhakrisnan Marg, Andheri (East) Mumbai 400 069
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Conference Content Section -->
+    <div class="flex-1 flex flex-col items-center justify-center w-full px-4 pb-12">
+        <div class="text-center mb-8 max-w-3xl px-4">
+            <h2 class="text-lg md:text-xl font-black text-indigo-600 uppercase tracking-[0.3em] mb-4">
+                International Conference on
+            </h2>
+            <h1 class="conf-title text-2xl md:text-4xl font-extrabold text-slate-800 tracking-tight mb-4 uppercase">
+                <span class="highlight-letter">M</span>ultidisciplinary <span class="highlight-letter">V</span>isions for<br>
+                <span class="highlight-letter">L</span>earning and <span class="highlight-letter">U</span>niversalization
+            </h1>
+            <div class="h-1.5 w-24 bg-indigo-200 mx-auto mb-5 rounded-full"></div>
+            <p class="pink-text font-black text-lg tracking-[0.2em] uppercase">ICMVLU 2026</p>
+        </div>
+
+        <!-- Main Routing Card -->
+        <div class="glass w-full max-w-md p-8 rounded-[2.5rem] shadow-2xl border border-white relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-24 h-24 bg-indigo-50 rounded-full"></div>
+            
+            <!-- Step 1: Login Form -->
+            <div id="login-section" class="relative z-10">
+                <div class="flex items-center gap-3 mb-6 text-indigo-600 bg-indigo-50 p-3 rounded-xl border border-indigo-100">
+                    <i class="fas fa-user-shield"></i>
+                    <span class="font-bold text-xs uppercase tracking-widest">Delegate Verification</span>
+                </div>
+
+                <h2 class="text-xl font-bold text-slate-700 mb-6 text-center">Enter Your Paper/Manuscript ID</h2>
+                
+                <div class="space-y-5">
+                    <div class="relative">
+                        <i class="fas fa-id-badge absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input 
+                            type="text" 
+                            id="studentCode" 
+                            placeholder="e.g. ICMVLU99" 
+                            class="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-100 focus:border-indigo-500 rounded-2xl outline-none transition-all text-lg font-bold tracking-widest uppercase"
+                        >
+                    </div>
+
+                    <div id="error-msg" class="hidden bg-red-50 text-red-600 p-4 rounded-2xl text-sm border border-red-100 text-center font-semibold animate-pulse">
+                        <!-- Error message -->
+                    </div>
+
+                    <button onclick="verifyCode()" id="verify-btn" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-lg shadow-lg shadow-indigo-100 transition-all flex items-center justify-center gap-2 disabled:bg-slate-400 disabled:shadow-none">
+                        <span>Verify & Join</span>
+                        <i class="fas fa-arrow-right text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 2: Success Section -->
+            <div id="success-section" class="hidden text-center py-4 relative z-10">
+                <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check text-green-600 text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-800 mb-1">ID Verified</h2>
+                <p class="text-slate-400 text-sm mb-6 uppercase tracking-wider font-semibold">
+                    YOUR TRACK: <span id="batch-name" class="pink-text font-black"></span>
+                </p>
+                
+                <div class="space-y-4">
+                    <a id="meet-link" href="#" target="_blank" class="block w-full py-5 bg-green-600 hover:bg-green-700 text-white rounded-2xl font-black text-xl shadow-xl shadow-green-100 transition-all transform hover:-translate-y-1">
+                        JOIN CONFERENCE
+                    </a>
+                    
+                    <button onclick="goBack()" class="w-full py-3 text-slate-400 hover:text-slate-600 font-bold text-sm flex items-center justify-center gap-2 transition-colors">
+                        <i class="fas fa-arrow-left"></i> Use a different ID
+                    </button>
+                    
+                    <p class="text-[10px] text-slate-400 mt-2 italic">Note: This ID is now locked to your current session.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center"></div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = JSON.parse(__firebase_config);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // Paper/Manuscript ID Mapping - Updated to ICMVLU style
+        const meetMapping = [
+            { track: "TRACK 01", link: "https://meet.google.com/abc-defg-hij", codes: ["ICMVLU01", "ICMVLU02", "ICMVLU03", "ICMVLU04", "ICMVLU05"] },
+            { track: "TRACK 02", link: "https://meet.google.com/klm-nopq-rst", codes: ["ICMVLU06", "ICMVLU07", "ICMVLU08", "ICMVLU09", "ICMVLU10"] },
+            { track: "TRACK 03", link: "https://meet.google.com/uvw-xyz1-234", codes: ["ICMVLU11", "ICMVLU12", "ICMVLU13", "ICMVLU14", "ICMVLU15"] },
+            { track: "TRACK 04", link: "https://meet.google.com/fgh-ijkl-mno", codes: ["ICMVLU16", "ICMVLU17", "ICMVLU18", "ICMVLU19", "ICMVLU20"] },
+            { track: "TRACK 05", link: "https://meet.google.com/pqr-stuv-wxy", codes: ["ICMVLU99", "ICMVLU100"] }
+        ];
+
+        let currentUser = null;
+        const initAuth = async () => {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    const result = await signInWithCustomToken(auth, __initial_auth_token);
+                    currentUser = result.user;
+                } else {
+                    const result = await signInAnonymously(auth);
+                    currentUser = result.user;
+                }
+            } catch (error) {
+                console.error("Auth error", error);
+            }
+        };
+        initAuth();
+
+        window.verifyCode = async function() {
+            const input = document.getElementById('studentCode').value.trim().toUpperCase();
+            const errorBox = document.getElementById('error-msg');
+            const btn = document.getElementById('verify-btn');
+            
+            if (!input) return;
+            if (!currentUser) {
+                errorBox.innerText = "System loading... Please wait a second.";
+                errorBox.classList.remove('hidden');
+                return;
+            }
+
+            errorBox.classList.add('hidden');
+            btn.innerHTML = '<div class="spinner"></div> Verifying...';
+            btn.disabled = true;
+
+            try {
+                const match = meetMapping.find(m => m.codes.includes(input));
+                
+                if (!match) {
+                    throw new Error("Invalid ID! Please check your manuscript ID and try again.");
+                }
+
+                const usedCodeRef = doc(db, 'artifacts', appId, 'public', 'data', 'usedCodes', input);
+                const codeSnap = await getDoc(usedCodeRef);
+
+                if (codeSnap.exists()) {
+                    if (codeSnap.data().usedBy !== currentUser.uid) {
+                        throw new Error("This ID has already been used to join the conference.");
+                    }
+                }
+
+                await setDoc(usedCodeRef, {
+                    usedBy: currentUser.uid,
+                    usedAt: serverTimestamp(),
+                    batch: match.track
+                }, { merge: true });
+
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('success-section').classList.remove('hidden');
+                document.getElementById('batch-name').innerText = match.track;
+                document.getElementById('meet-link').href = match.link;
+
+            } catch (error) {
+                errorBox.innerText = error.message;
+                errorBox.classList.remove('hidden');
+                btn.innerHTML = '<span>Verify & Join</span> <i class="fas fa-arrow-right text-sm"></i>';
+                btn.disabled = false;
+            }
+        };
+
+        window.goBack = function() {
+            document.getElementById('login-section').classList.remove('hidden');
+            document.getElementById('success-section').classList.add('hidden');
+            document.getElementById('studentCode').value = '';
+            document.getElementById('verify-btn').innerHTML = '<span>Verify & Join</span> <i class="fas fa-arrow-right text-sm"></i>';
+            document.getElementById('verify-btn').disabled = false;
+            document.getElementById('error-msg').classList.add('hidden');
+        };
+
+        document.getElementById('studentCode').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') window.verifyCode();
+        });
+    </script>
+</body>
+</html>
